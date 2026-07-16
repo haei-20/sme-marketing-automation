@@ -42,6 +42,7 @@ Kết quả hợp lệ in `SME_DESKTOP_SMOKE_TEST_OK` và thoát với mã `0`.
 - Mọi browser permission bị từ chối mặc định.
 - Navigation và cửa sổ mới bị chặn; URL ngoài chỉ mở khi dùng HTTPS và nằm trong allowlist.
 - Preload chỉ expose `getAppInfo`, `getRuntimeConfig`, `getServiceHealth`, `openApprovedExternalUrl` và sự kiện health.
-- Backend/AI/Ollama health chỉ gọi qua `127.0.0.1`.
+- Backend/AI/Ollama health chỉ gọi qua `127.0.0.1`; MySQL chỉ được dò cổng local mặc định `3306`.
+- Nếu một prerequisite/dịch vụ chưa sẵn sàng, renderer hiện Setup Assistant với nguyên nhân, cách khắc phục và nút kiểm tra lại thay vì trang trắng.
 
 FE-02 không khởi động/dừng Spring Boot hoặc FastAPI. Quản lý vòng đời sidecar thuộc FE-11 sau khi TV1/TV3 bàn giao artifact thật.

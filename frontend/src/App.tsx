@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { DesktopStartupGate } from "./components/DesktopStartupGate";
 import { AppShell } from "./layouts/AppShell";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 
@@ -17,6 +18,7 @@ const PublishingLogsPage = lazy(() => import("./pages/PublishingLogsPage").then(
 const RegisterPage = lazy(() => import("./pages/RegisterPage").then((module) => ({ default: module.RegisterPage })));
 const ReportsPage = lazy(() => import("./pages/ReportsPage").then((module) => ({ default: module.ReportsPage })));
 const SchedulePage = lazy(() => import("./pages/SchedulePage").then((module) => ({ default: module.SchedulePage })));
+const SystemStatusPage = lazy(() => import("./pages/SystemStatusPage").then((module) => ({ default: module.SystemStatusPage })));
 
 function RouteFallback() {
   return (
@@ -28,28 +30,31 @@ function RouteFallback() {
 
 export function App() {
   return (
-    <Suspense fallback={<RouteFallback />}>
-      <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route element={<ProtectedRoute />}>
-        <Route element={<AppShell />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="knowledge-base" element={<KnowledgeBasePage />} />
-          <Route path="campaigns" element={<CampaignsPage />} />
-          <Route path="campaigns/:campaignId/plans" element={<CampaignPlanPage />} />
-          <Route path="posts" element={<PostsPage />} />
-          <Route path="posts/:postId/edit" element={<PostEditorPage />} />
-          <Route path="posts/:postId/review" element={<PostEditorPage />} />
-          <Route path="schedule" element={<SchedulePage />} />
-          <Route path="publishing/logs" element={<PublishingLogsPage />} />
-          <Route path="reports" element={<ReportsPage />} />
-          <Route path="integrations" element={<IntegrationsPage />} />
-        </Route>
-      </Route>
-      <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Suspense>
+    <DesktopStartupGate>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppShell />}>
+              <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="knowledge-base" element={<KnowledgeBasePage />} />
+              <Route path="campaigns" element={<CampaignsPage />} />
+              <Route path="campaigns/:campaignId/plans" element={<CampaignPlanPage />} />
+              <Route path="posts" element={<PostsPage />} />
+              <Route path="posts/:postId/edit" element={<PostEditorPage />} />
+              <Route path="posts/:postId/review" element={<PostEditorPage />} />
+              <Route path="schedule" element={<SchedulePage />} />
+              <Route path="publishing/logs" element={<PublishingLogsPage />} />
+              <Route path="reports" element={<ReportsPage />} />
+              <Route path="integrations" element={<IntegrationsPage />} />
+              <Route path="system-status" element={<SystemStatusPage />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </DesktopStartupGate>
   );
 }

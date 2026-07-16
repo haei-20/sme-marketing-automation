@@ -5,6 +5,8 @@ const APPROVED_EXTERNAL_HOSTS = new Set([
   "www.facebook.com",
   "developers.facebook.com",
   "github.com",
+  "ollama.com",
+  "dev.mysql.com",
 ]);
 
 export function isApprovedExternalUrl(value: string): boolean {

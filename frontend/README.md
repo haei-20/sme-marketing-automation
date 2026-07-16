@@ -4,7 +4,7 @@ Thư mục này chứa renderer React/Vite của ứng dụng Windows. Khi phát
 
 ## Trạng thái
 
-Đã có các màn: login/register, dashboard, knowledge base, campaign/plan, posts/editor/review, schedule, publishing logs, reports và integrations. Mock mode cho phép phát triển độc lập. Electron main/preload nằm tại [`../desktop`](../desktop/README.md); Backend và AI sidecar vẫn là phụ thuộc chưa được bàn giao.
+Đã có các màn: setup/service health, login/register, dashboard, knowledge base, campaign/plan, posts/editor/review, schedule, publishing logs, reports và integrations. Mock mode cho phép phát triển độc lập. Electron main/preload nằm tại [`../desktop`](../desktop/README.md); Backend và AI sidecar vẫn là phụ thuộc chưa được bàn giao.
 
 ## Môi trường
 

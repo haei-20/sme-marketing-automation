@@ -31,6 +31,8 @@ test("chỉ cho phép renderer nội bộ hoặc đúng dev origin", () => {
 test("external URL bắt buộc HTTPS và thuộc allowlist", () => {
   assert.equal(isApprovedExternalUrl("https://github.com/haei-20"), true);
   assert.equal(isApprovedExternalUrl("https://developers.facebook.com"), true);
+  assert.equal(isApprovedExternalUrl("https://ollama.com/download/windows"), true);
+  assert.equal(isApprovedExternalUrl("https://dev.mysql.com/downloads/installer/"), true);
   assert.equal(isApprovedExternalUrl("http://github.com/haei-20"), false);
   assert.equal(isApprovedExternalUrl("https://github.com.evil.test"), false);
   assert.equal(isApprovedExternalUrl("javascript:alert(1)"), false);

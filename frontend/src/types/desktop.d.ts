@@ -12,7 +12,7 @@ interface SmeDesktopApi {
   }>;
   getServiceHealth(): Promise<
     Array<{
-      name: "backend" | "ai" | "ollama";
+      name: "backend" | "ai" | "ollama" | "mysql";
       status: "UP" | "DOWN" | "UNKNOWN";
       checkedAt: string;
       message?: string;
@@ -22,7 +22,7 @@ interface SmeDesktopApi {
   onServiceHealthChanged(
     listener: (
       services: Array<{
-        name: "backend" | "ai" | "ollama";
+        name: "backend" | "ai" | "ollama" | "mysql";
         status: "UP" | "DOWN" | "UNKNOWN";
         checkedAt: string;
         message?: string;

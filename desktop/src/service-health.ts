@@ -1,4 +1,5 @@
 import { net } from "electron";
+import { createConnection } from "node:net";
 
 import type {
   LocalServiceName,
@@ -6,7 +7,7 @@ import type {
 } from "./contracts";
 
 const HEALTH_TARGETS: ReadonlyArray<{
-  name: LocalServiceName;
+  name: Exclude<LocalServiceName, "mysql">;
   url: string;
 }> = [
   {
@@ -42,20 +43,47 @@ async function checkTarget(
       name: target.name,
       status: response.ok ? "UP" : "DOWN",
       checkedAt,
-      message: response.ok ? undefined : `HTTP ${response.status}`,
+      message: response.ok ? "Sẵn sàng" : `Phản hồi HTTP ${response.status}`,
     };
   } catch (error) {
     return {
       name: target.name,
       status: "DOWN",
       checkedAt,
-      message: error instanceof Error ? error.message : "Không thể kết nối",
+      message:
+        error instanceof Error && error.name === "AbortError"
+          ? "Quá thời gian chờ phản hồi"
+          : "Không thể kết nối tới dịch vụ local",
     };
   } finally {
     clearTimeout(timeout);
   }
 }
 
+function getMysqlPort(): number {
+  const value = Number.parseInt(process.env.SME_MYSQL_PORT ?? "3306", 10);
+  return Number.isInteger(value) && value > 0 && value <= 65_535 ? value : 3306;
+}
+
+async function checkMysql(): Promise<ServiceHealth> {
+  const checkedAt = new Date().toISOString();
+
+  return new Promise((resolve) => {
+    const socket = createConnection({ host: "127.0.0.1", port: getMysqlPort() });
+
+    const finish = (status: ServiceHealth["status"], message: string) => {
+      socket.removeAllListeners();
+      socket.destroy();
+      resolve({ name: "mysql", status, checkedAt, message });
+    };
+
+    socket.setTimeout(1_500);
+    socket.once("connect", () => finish("UP", "Cổng MySQL local đang mở"));
+    socket.once("timeout", () => finish("DOWN", "Quá thời gian chờ MySQL"));
+    socket.once("error", () => finish("DOWN", "Không thể kết nối MySQL trên máy"));
+  });
+}
+
 export async function checkLocalServices(): Promise<ServiceHealth[]> {
-  return Promise.all(HEALTH_TARGETS.map(checkTarget));
+  return Promise.all([...HEALTH_TARGETS.map(checkTarget), checkMysql()]);
 }

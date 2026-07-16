@@ -6,7 +6,7 @@ export const IPC_CHANNELS = Object.freeze({
   serviceHealthChanged: "desktop:service-health-changed",
 });
 
-export type LocalServiceName = "backend" | "ai" | "ollama";
+export type LocalServiceName = "backend" | "ai" | "ollama" | "mysql";
 export type LocalServiceStatus = "UP" | "DOWN" | "UNKNOWN";
 
 export interface AppInfo {

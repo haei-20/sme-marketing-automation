@@ -13,6 +13,7 @@ import {
   PlugZap,
   Search,
   ScrollText,
+  ServerCog,
   X,
 } from "lucide-react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -34,6 +35,7 @@ const navigation = [
 ];
 
 const secondaryNavigation = [
+  { label: "Trạng thái hệ thống", to: "/system-status", icon: ServerCog },
   { label: "Tích hợp", to: "/integrations", icon: PlugZap },
 ];
 
