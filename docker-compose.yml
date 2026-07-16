@@ -1,0 +1,115 @@
+name: sme-marketing-automation
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+        VITE_WS_URL: ${VITE_WS_URL:-ws://localhost:8080/ws}
+        VITE_USE_MOCKS: ${VITE_USE_MOCKS:-true}
+        VITE_API_TIMEOUT_MS: ${VITE_API_TIMEOUT_MS:-20000}
+        VITE_WS_RECONNECT_DELAY_MS: ${VITE_WS_RECONNECT_DELAY_MS:-3000}
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    restart: unless-stopped
+    networks:
+      - sme-network
+
+  # Hai service ứng dụng dưới đây chỉ được bật bằng profile `full`.
+  # Repo hiện chưa có backend/ và ai-service/ hoàn chỉnh; profile này sẽ chỉ
+  # build được sau khi các thành viên tương ứng cung cấp Dockerfile thật.
+  backend:
+    profiles: ["full"]
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-sme_marketing}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-sme_app}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-change-me}
+      AI_SERVICE_BASE_URL: http://ai-service:8000
+    expose:
+      - "8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ai-service:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - sme-network
+
+  ai-service:
+    profiles: ["full"]
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      FAISS_INDEX_PATH: /app/data/faiss
+    expose:
+      - "8000"
+    volumes:
+      - faiss-data:/app/data/faiss
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - sme-network
+
+  mysql:
+    profiles: ["infra", "full"]
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-sme_marketing}
+      MYSQL_USER: ${MYSQL_USER:-sme_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-root-me}
+      TZ: UTC
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sme-network
+
+  ollama:
+    profiles: ["infra", "full"]
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sme-network
+
+networks:
+  sme-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  ollama-data:
+  faiss-data:
