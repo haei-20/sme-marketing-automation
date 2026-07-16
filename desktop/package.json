@@ -1,0 +1,42 @@
+{
+  "name": "sme-marketing-automation",
+  "productName": "SME Marketing Automation",
+  "version": "0.1.0",
+  "description": "Trợ lý AI marketing local-first dành cho doanh nghiệp vừa và nhỏ.",
+  "author": "SME Marketing Automation Team",
+  "private": true,
+  "main": "dist/main.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "concurrently -k -s first \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "npm --prefix ../frontend run dev -- --host 127.0.0.1",
+    "dev:electron": "wait-on http-get://127.0.0.1:5173 && npm run build:main && cross-env SME_RENDERER_URL=http://127.0.0.1:5173 electron .",
+    "build:renderer": "npm --prefix ../frontend run build",
+    "build:main": "tsc -p tsconfig.json",
+    "build": "npm run build:renderer && npm run build:main",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build:main && node --test test/*.test.cjs",
+    "package": "npm run build && electron-forge package",
+    "make": "npm run build && electron-forge make"
+  },
+  "config": {
+    "forge": "./forge.config.cjs"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "1.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "7.11.2",
+    "@electron-forge/maker-squirrel": "7.11.2",
+    "@types/node": "26.1.1",
+    "concurrently": "10.0.3",
+    "cross-env": "10.1.0",
+    "electron": "43.1.1",
+    "typescript": "7.0.2",
+    "wait-on": "9.0.10"
+  }
+}

@@ -11,7 +11,7 @@ React Router vẫn dùng các route nội bộ `/login`, `/dashboard`, `/knowled
 | Mã / tuần | Sản phẩm và tiêu chí nghiệm thu | Phụ thuộc | Trạng thái 15/07/2026 |
 |---|---|---|---|
 | FE-01 / T1 | React/Vite renderer, routing, design system, error boundary; lint/test/build đạt. | — | **Đã xong** ở mức renderer độc lập. |
-| FE-02 / T1–2 | Electron main/preload, BrowserWindow an toàn, IPC whitelist, desktop dev script. | FE-01 | **Chưa bắt đầu**; Docker Compose cũ chỉ giữ cho development. |
+| FE-02 / T1–2 | Electron main/preload, BrowserWindow an toàn, IPC whitelist, desktop dev script. | FE-01 | **Đã xong**: custom protocol `sme://`, CSP, sandbox/context isolation, 4 security tests, Forge package và packaged-renderer smoke test đều đạt. |
 | FE-03 / T2 | Desktop wireframe cho setup/service health và toàn bộ màn nghiệp vụ; loading/empty/error. | FE-01 | **Đã xong** phần màn nghiệp vụ; còn bổ sung setup/health khi FE-02 có. |
 | FE-04 / T3 | Auth UI, route guard, refresh/logout, lỗi 401/403; secret không nằm trong renderer. | BE-04, FE-02 | **Đang làm**; mock/session và route guard đã có, Backend contract chưa tích hợp. |
 | FE-05 / T4 | Dashboard + upload PDF/DOCX/XLSX vào Backend local; trạng thái PROCESSING/INDEXED/FAILED. | BE-06, AI-05/06 | **Đang làm**; UI/mock đã có. |
@@ -28,7 +28,7 @@ React Router vẫn dùng các route nội bộ `/login`, `/dashboard`, `/knowled
 
 | Mốc | Bằng chứng TV4 |
 |---|---|
-| Tuần 2 | Electron mở renderer local; security preferences và IPC test; wireframe setup/health. |
+| Tuần 2 | Electron mở renderer local; security preferences, IPC test và packaged-renderer smoke test đạt; wireframe setup/health tiếp tục ở FE-03/FE-08. |
 | Tuần 5 | Auth/upload/plan/editor chạy trong cửa sổ desktop với Backend local. |
 | Tuần 8 | Stream thật; service health; offline mode; review/schedule UI. |
 | Tuần 10 | Upload → plan → generate → review → schedule → publish/log end-to-end. |
@@ -44,4 +44,4 @@ npm.cmd test
 npm.cmd run build
 ```
 
-Khi `desktop/` được tạo phải bổ sung kiểm tra main/preload, IPC contract, packaged asset path, service lifecycle và `npm run make`. Frontend `/healthz` hoặc Vite chạy được không đồng nghĩa installer/sidecar đã nghiệm thu.
+`desktop/` hiện đã có kiểm tra main/preload, IPC contract, packaged asset path và smoke test. Service lifecycle thuộc FE-11; installer Squirrel và clean-machine test thuộc FE-12. Frontend `/healthz`, Vite hoặc bản package unpacked chạy được không đồng nghĩa installer/sidecar đã nghiệm thu.
