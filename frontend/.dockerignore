@@ -1,0 +1,29 @@
+node_modules
+dist
+coverage
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+.DS_Store
+.idea
+.vscode
+
+# Dấu vết/bộ nhớ đệm của các starter và công cụ không thuộc Vite SPA runtime.
+.next
+.vinext
+.wrangler
+.openai
+out
+outputs
+work
+
+# Không cần cho production build image.
+docs
+examples
+drizzle
+db
+worker
