@@ -1,0 +1,14 @@
+# Python virtual environments
+.venv/
+ai-service/.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test caches
+.pytest_cache/
+.mypy_cache/
+
+# Local environment
+.env
