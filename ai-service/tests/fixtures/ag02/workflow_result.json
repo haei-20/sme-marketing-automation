@@ -1,0 +1,129 @@
+{
+  "request": {
+    "business_id": "biz-01",
+    "product_id": "prd-01",
+    "product_name": "Ca phe New Day",
+    "objective": "ra mat san pham moi",
+    "target_audience": "nhan vien van phong",
+    "platform": "facebook",
+    "tone": "than thiet",
+    "source_facts": [
+      "huong vi: dam da",
+      "chat luong: rang xay nguyen chat",
+      "dinh vi: phu hop nhan vien van phong"
+    ],
+    "rag_context": {
+      "context": "huong vi: dam da; chat luong: rang xay nguyen chat; dinh vi: phu hop nhan vien van phong",
+      "sources": [
+        {
+          "document_id": "prd-01-source",
+          "chunk_id": "manual-1",
+          "content": "huong vi: dam da",
+          "score": 0.88
+        },
+        {
+          "document_id": "prd-01-source",
+          "chunk_id": "manual-2",
+          "content": "chat luong: rang xay nguyen chat",
+          "score": 0.88
+        },
+        {
+          "document_id": "prd-01-source",
+          "chunk_id": "manual-3",
+          "content": "dinh vi: phu hop nhan vien van phong",
+          "score": 0.88
+        }
+      ],
+      "has_sufficient_context": true,
+      "warnings": []
+    },
+    "max_revisions": 2
+  },
+  "rag_context": {
+    "context": "huong vi: dam da; chat luong: rang xay nguyen chat; dinh vi: phu hop nhan vien van phong",
+    "sources": [
+      {
+        "document_id": "prd-01-source",
+        "chunk_id": "manual-1",
+        "content": "huong vi: dam da",
+        "score": 0.88
+      },
+      {
+        "document_id": "prd-01-source",
+        "chunk_id": "manual-2",
+        "content": "chat luong: rang xay nguyen chat",
+        "score": 0.88
+      },
+      {
+        "document_id": "prd-01-source",
+        "chunk_id": "manual-3",
+        "content": "dinh vi: phu hop nhan vien van phong",
+        "score": 0.88
+      }
+    ],
+    "has_sufficient_context": true,
+    "warnings": []
+  },
+  "extracted_features": {
+    "business_id": "biz-01",
+    "product_id": "prd-01",
+    "product_name": "Ca phe New Day",
+    "features": [
+      {
+        "name": "huong vi",
+        "value": "dam da",
+        "confidence": 0.95,
+        "source_chunk_ids": [
+          "manual-1"
+        ]
+      },
+      {
+        "name": "chat luong",
+        "value": "rang xay nguyen chat",
+        "confidence": 0.95,
+        "source_chunk_ids": [
+          "manual-2"
+        ]
+      },
+      {
+        "name": "dinh vi",
+        "value": "phu hop nhan vien van phong",
+        "confidence": 0.95,
+        "source_chunk_ids": [
+          "manual-3"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "generated_content": {
+    "title": "Ca phe New Day | ra mat san pham moi",
+    "caption": "Than thiet cho facebook: Ca phe New Day co cac diem noi bat: huong vi: dam da; chat luong: rang xay nguyen chat. Danh cho nhan vien van phong. Noi dung nay duoc bo sung de bam sat hon vao cac nguon da xac nhan.",
+    "call_to_action": "Lien he de nhan tu van va dat hang ngay hom nay.",
+    "hashtags": [
+      "#CaPheNewDay",
+      "#facebook",
+      "#marketing"
+    ],
+    "platform": "facebook",
+    "source_chunk_ids": [
+      "manual-1",
+      "manual-2",
+      "manual-3"
+    ],
+    "warnings": []
+  },
+  "review_result": {
+    "approved": true,
+    "factual_score": 1.0,
+    "relevance_score": 1.0,
+    "tone_score": 1.0,
+    "issues": [],
+    "revision_instructions": [
+      "No revision needed."
+    ]
+  },
+  "status": "completed",
+  "revision_count": 1,
+  "warnings": []
+}

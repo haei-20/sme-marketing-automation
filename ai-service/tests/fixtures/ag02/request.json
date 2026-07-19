@@ -1,0 +1,15 @@
+{
+  "business_id": "biz-01",
+  "product_id": "prd-01",
+  "product_name": "Ca phe New Day",
+  "objective": "ra mat san pham moi",
+  "target_audience": "nhan vien van phong",
+  "platform": "facebook",
+  "tone": "than thiet",
+  "source_facts": [
+    "huong vi: dam da",
+    "chat luong: rang xay nguyen chat",
+    "dinh vi: phu hop nhan vien van phong"
+  ],
+  "max_revisions": 2
+}

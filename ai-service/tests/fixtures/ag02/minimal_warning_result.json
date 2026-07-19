@@ -1,0 +1,68 @@
+{
+  "request": {
+    "business_id": "biz-01",
+    "product_id": "prd-02",
+    "product_name": "Ca phe New Day",
+    "objective": "ra mat san pham moi",
+    "target_audience": "nhan vien van phong",
+    "platform": "website",
+    "tone": "than thiet",
+    "source_facts": [],
+    "rag_context": null,
+    "max_revisions": 0
+  },
+  "rag_context": {
+    "context": "Minimal context for Ca phe New Day on website",
+    "sources": [],
+    "has_sufficient_context": false,
+    "warnings": [
+      "RAG context is minimal and only supports a draft answer."
+    ]
+  },
+  "extracted_features": {
+    "business_id": "biz-01",
+    "product_id": "prd-02",
+    "product_name": "Ca phe New Day",
+    "features": [],
+    "warnings": [
+      "RAG context is minimal and only supports a draft answer.",
+      "No source facts or RAG chunks were available for feature extraction."
+    ]
+  },
+  "generated_content": {
+    "title": "Ca phe New Day | ra mat san pham moi",
+    "caption": "Than thiet cho website: Ca phe New Day co cac diem noi bat: chua co du lieu duoc xac nhan. Danh cho nhan vien van phong. Noi dung nay duoc bo sung de bam sat hon vao cac nguon da xac nhan.",
+    "call_to_action": "Lien he de nhan tu van va dat hang ngay hom nay.",
+    "hashtags": [
+      "#CaPheNewDay",
+      "#website",
+      "#marketing"
+    ],
+    "platform": "website",
+    "source_chunk_ids": [],
+    "warnings": [
+      "RAG context is minimal and only supports a draft answer.",
+      "No source facts or RAG chunks were available for feature extraction."
+    ]
+  },
+  "review_result": {
+    "approved": false,
+    "factual_score": 0.0,
+    "relevance_score": 0.8,
+    "tone_score": 1.0,
+    "issues": [
+      "Generated content has no source references."
+    ],
+    "revision_instructions": [
+      "Add any missing feature backed by the input or RAG source."
+    ]
+  },
+  "status": "completed_with_warnings",
+  "revision_count": 0,
+  "warnings": [
+    "RAG context is minimal and only supports a draft answer.",
+    "No source facts or RAG chunks were available for feature extraction.",
+    "Generated content has no source references.",
+    "Add any missing feature backed by the input or RAG source."
+  ]
+}
