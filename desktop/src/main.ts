@@ -7,6 +7,7 @@ import {
   BrowserWindow,
   ipcMain,
   net,
+  Notification,
   protocol,
   session,
   shell,
@@ -15,9 +16,16 @@ import {
 
 import {
   IPC_CHANNELS,
+  type AppInfo,
   type DesktopRuntimeConfig,
   type ServiceHealth,
 } from "./contracts";
+import {
+  configureDiagnostics,
+  getDiagnosticFileName,
+  readRecentDiagnostics,
+  writeDiagnostic,
+} from "./diagnostics";
 import {
   canUseSpaFallback,
   isApprovedExternalUrl,
@@ -54,6 +62,23 @@ const runtimeConfig: DesktopRuntimeConfig = Object.freeze({
 let mainWindow: BrowserWindow | null = null;
 let healthTimer: NodeJS.Timeout | undefined;
 let latestHealth: ServiceHealth[] = [];
+const previousHealth = new Map<ServiceHealth["name"], ServiceHealth["status"]>();
+
+const serviceLabels: Record<ServiceHealth["name"], string> = {
+  backend: "Backend",
+  ai: "AI Service",
+  ollama: "Ollama",
+  mysql: "MySQL",
+};
+
+function getAppInfo(): AppInfo {
+  return {
+    name: app.getName(),
+    version: app.getVersion(),
+    platform: process.platform,
+    packaged: app.isPackaged,
+  };
+}
 
 function assertTrustedSender(event: IpcMainInvokeEvent): void {
   const senderUrl = event.senderFrame?.url ?? event.sender.getURL();
@@ -100,11 +125,18 @@ function configureSessionSecurity(): void {
 function configureIpc(): void {
   ipcMain.handle(IPC_CHANNELS.getAppInfo, (event) => {
     assertTrustedSender(event);
+    return getAppInfo();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.getDiagnostics, async (event) => {
+    assertTrustedSender(event);
+    if (latestHealth.length === 0) latestHealth = await checkLocalServices();
     return {
-      name: app.getName(),
-      version: app.getVersion(),
-      platform: process.platform,
-      packaged: app.isPackaged,
+      generatedAt: new Date().toISOString(),
+      app: getAppInfo(),
+      services: latestHealth,
+      logFileName: getDiagnosticFileName(),
+      recentLogs: await readRecentDiagnostics(),
     };
   });
 
@@ -131,8 +163,37 @@ function configureIpc(): void {
   );
 }
 
+function recordServiceTransitions(services: ServiceHealth[]): void {
+  for (const service of services) {
+    const previousStatus = previousHealth.get(service.name);
+    previousHealth.set(service.name, service.status);
+    if (!previousStatus || previousStatus === service.status) continue;
+
+    const label = serviceLabels[service.name];
+    const recovered = service.status === "UP";
+    const message = recovered
+      ? `${label} đã hoạt động lại trên máy.`
+      : `${label} không còn phản hồi. Mở Trạng thái hệ thống để kiểm tra.`;
+
+    void writeDiagnostic(
+      recovered ? "INFO" : "WARN",
+      "service_status_changed",
+      `${label}: ${previousStatus} -> ${service.status}. ${service.message ?? ""}`,
+    );
+
+    if (Notification.isSupported()) {
+      new Notification({
+        title: recovered ? "Dịch vụ local đã phục hồi" : "Dịch vụ local bị gián đoạn",
+        body: message,
+        silent: recovered,
+      }).show();
+    }
+  }
+}
+
 async function publishServiceHealth(): Promise<void> {
   latestHealth = await checkLocalServices();
+  recordServiceTransitions(latestHealth);
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send(
       IPC_CHANNELS.serviceHealthChanged,
@@ -234,6 +295,12 @@ if (!hasSingleInstanceLock) {
         );
       }
 
+      configureDiagnostics(path.join(app.getPath("userData"), "logs"));
+      await writeDiagnostic(
+        "INFO",
+        "desktop_started",
+        `Version ${app.getVersion()}; packaged=${app.isPackaged}`,
+      );
       configureSessionSecurity();
       configureIpc();
       await registerRendererProtocol();
@@ -257,6 +324,11 @@ if (!hasSingleInstanceLock) {
       });
     })
     .catch((error) => {
+      void writeDiagnostic(
+        "ERROR",
+        "desktop_start_failed",
+        error instanceof Error ? error.message : "Lỗi không xác định",
+      );
       console.error("Không thể khởi động Desktop app", error);
       app.exit(1);
     });

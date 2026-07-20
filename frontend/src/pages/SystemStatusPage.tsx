@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Badge, PageHeader } from "@/components";
 
 import { ServiceStatusPanel } from "../components/ServiceStatusPanel";
+import { DesktopDiagnosticsPanel } from "../components/DesktopDiagnosticsPanel";
 import { useDesktopServiceHealth } from "../desktop/service-health";
 
 export function SystemStatusPage() {
@@ -29,6 +30,9 @@ export function SystemStatusPage() {
           error={health.error}
           onRefresh={health.refresh}
         />
+      </div>
+      <div className="mt-6">
+        <DesktopDiagnosticsPanel />
       </div>
     </>
   );

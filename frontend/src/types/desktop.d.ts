@@ -5,6 +5,28 @@ interface SmeDesktopApi {
     platform: NodeJS.Platform;
     packaged: boolean;
   }>;
+  getDiagnostics(): Promise<{
+    generatedAt: string;
+    app: {
+      name: string;
+      version: string;
+      platform: NodeJS.Platform;
+      packaged: boolean;
+    };
+    services: Array<{
+      name: "backend" | "ai" | "ollama" | "mysql";
+      status: "UP" | "DOWN" | "UNKNOWN";
+      checkedAt: string;
+      message?: string;
+    }>;
+    logFileName: string;
+    recentLogs: Array<{
+      timestamp: string;
+      level: "INFO" | "WARN" | "ERROR";
+      event: string;
+      message: string;
+    }>;
+  }>;
   getRuntimeConfig(): Promise<{
     apiBaseUrl: string;
     webSocketUrl: string;

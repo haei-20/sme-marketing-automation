@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { useDesktopServiceHealth } from "../desktop/service-health";
 import { BrandMark } from "./BrandMark";
+import { DesktopDiagnosticsPanel } from "./DesktopDiagnosticsPanel";
 import { ServiceStatusPanel } from "./ServiceStatusPanel";
 
 export function DesktopStartupGate({ children }: { children: ReactNode }) {
@@ -22,6 +23,9 @@ export function DesktopStartupGate({ children }: { children: ReactNode }) {
           onRefresh={health.refresh}
           showIntroduction
         />
+        <div className="mt-6">
+          <DesktopDiagnosticsPanel />
+        </div>
       </div>
     </main>
   );

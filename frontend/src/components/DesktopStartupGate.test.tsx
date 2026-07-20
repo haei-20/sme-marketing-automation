@@ -19,6 +19,13 @@ function installDesktopApi(services: ServiceHealth[]) {
     configurable: true,
     value: {
       getAppInfo: vi.fn(),
+      getDiagnostics: vi.fn().mockResolvedValue({
+        generatedAt: "2026-07-20T00:00:00.000Z",
+        app: { name: "SMEFlow AI", version: "0.1.0", platform: "win32", packaged: true },
+        services,
+        logFileName: "desktop.log",
+        recentLogs: [],
+      }),
       getRuntimeConfig: vi.fn(),
       getServiceHealth: vi.fn().mockResolvedValue(services),
       openApprovedExternalUrl: vi.fn(),

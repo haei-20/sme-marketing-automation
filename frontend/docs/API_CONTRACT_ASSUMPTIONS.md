@@ -16,6 +16,7 @@ Tài liệu này là contract tạm để Renderer và Electron phát triển kh
 ```ts
 interface DesktopAPI {
   getAppInfo(): Promise<{ version: string; platform: 'win32' }>;
+  getDiagnostics(): Promise<DesktopDiagnostics>;
   getRuntimeConfig(): Promise<{ apiBaseUrl: string; wsUrl: string }>;
   getServiceHealth(): Promise<ServiceHealth[]>;
   restartService(name: 'backend' | 'ai' | 'ollama'): Promise<void>;
@@ -24,7 +25,7 @@ interface DesktopAPI {
 }
 ```
 
-Không phơi bày toàn bộ `ipcRenderer`, `shell`, `fs`, `child_process` hoặc biến môi trường. Main phải validate sender, URL, service name và payload.
+`DesktopDiagnostics` chỉ chứa version, health snapshot, tên file log và sự kiện kỹ thuật đã redact; không trả đường dẫn tùy ý, token, email, prompt hoặc nội dung nghiệp vụ. Không phơi bày toàn bộ `ipcRenderer`, `shell`, `fs`, `child_process` hoặc biến môi trường. Main phải validate sender, URL, service name và payload.
 
 ## 3. REST endpoint cần chốt
 

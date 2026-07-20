@@ -8,6 +8,7 @@ import {
 
 const desktopApi: DesktopApi = Object.freeze({
   getAppInfo: () => ipcRenderer.invoke(IPC_CHANNELS.getAppInfo),
+  getDiagnostics: () => ipcRenderer.invoke(IPC_CHANNELS.getDiagnostics),
   getRuntimeConfig: () => ipcRenderer.invoke(IPC_CHANNELS.getRuntimeConfig),
   getServiceHealth: () => ipcRenderer.invoke(IPC_CHANNELS.getServiceHealth),
   openApprovedExternalUrl: (url: string) =>

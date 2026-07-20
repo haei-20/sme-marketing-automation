@@ -1,5 +1,6 @@
 export const IPC_CHANNELS = Object.freeze({
   getAppInfo: "desktop:get-app-info",
+  getDiagnostics: "desktop:get-diagnostics",
   getRuntimeConfig: "desktop:get-runtime-config",
   getServiceHealth: "desktop:get-service-health",
   openApprovedExternalUrl: "desktop:open-approved-external-url",
@@ -29,8 +30,26 @@ export interface ServiceHealth {
   message?: string;
 }
 
+export type DiagnosticLevel = "INFO" | "WARN" | "ERROR";
+
+export interface DiagnosticLogEntry {
+  timestamp: string;
+  level: DiagnosticLevel;
+  event: string;
+  message: string;
+}
+
+export interface DesktopDiagnostics {
+  generatedAt: string;
+  app: AppInfo;
+  services: ServiceHealth[];
+  logFileName: string;
+  recentLogs: DiagnosticLogEntry[];
+}
+
 export interface DesktopApi {
   getAppInfo(): Promise<AppInfo>;
+  getDiagnostics(): Promise<DesktopDiagnostics>;
   getRuntimeConfig(): Promise<DesktopRuntimeConfig>;
   getServiceHealth(): Promise<ServiceHealth[]>;
   openApprovedExternalUrl(url: string): Promise<void>;
