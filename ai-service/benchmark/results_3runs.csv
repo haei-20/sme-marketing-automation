@@ -1,0 +1,86 @@
+﻿model,prompt_id,prompt_name,run_number,total_seconds,load_seconds,prompt_eval_seconds,eval_seconds,prompt_tokens,generated_tokens,tokens_per_second,response
+qwen3:0.6b,BM-01,Vietnamese marketing,1,15.149,6.711,0.378,8.031,94,253,31.5,"Máy lọc nước New Day với giá 5.990.000 đồng, công suất 15 lít/giờ và bảo hành 24 tháng – thiết kế hiện đại, tiện lợi cho việc giữ nước sạch và tiết kiệm năng lượng. Mức giá hợp lý phù hợp với nhu cầu dùng của gia đình. Với công suất ổn định, máy sẽ đảm bảo chất lượng nước mỗi ngày. Hãy trải nghiệm ngay để tận dụng nguồn nước sạch cho sức khỏe!"
+qwen3:0.6b,BM-01,Vietnamese marketing,2,8.987,0.476,0.025,8.463,94,312,36.86,"Máy lọc nước New Day cao cấp, công suất 15 lít/giờ, với bảo hành 24 tháng, là lựa chọn tốt cho nhu cầu tiết kiệm nước. Thiết kế hiện đại, hỗ trợ lọc chất thải, giúp đảm bảo chất lượng nước trong thời gian dài. Giá 5.990.000 đồng hợp lý, phù hợp với nhiều khách hàng."
+qwen3:0.6b,BM-01,Vietnamese marketing,3,7.5,0.451,0.019,6.992,94,272,38.9,"Máy lọc nước New Day giá 5.990.000 đồng, công suất 15 lít/giờ, bảo hành 24 tháng, được thiết kế để tối ưu hóa hiệu quả."
+qwen3:0.6b,BM-02,Hallucination check,1,3.749,0.39,0.314,3.02,82,126,41.72,Không đủ thông tin để xác định công suất của sản phẩm A.
+qwen3:0.6b,BM-02,Hallucination check,2,6.104,0.389,0.018,5.684,82,235,41.34,Không đủ thông tin để trả lời câu hỏi này. Dữ liệu không chứa thông tin về công suất hoặc thông số kỹ thuật của sản phẩm A.
+qwen3:0.6b,BM-02,Hallucination check,3,4.481,0.496,0.025,3.931,82,170,43.25,Không đủ thông tin để trả lời câu hỏi. Dữ liệu không có câu trả lời về công suất của sản phẩm A.
+qwen3:0.6b,BM-03,JSON output,1,11.22,0.379,0.224,10.597,69,365,34.44,"```json
+{
+  ""product_name"": ""ABC"",
+  ""price"": 3500000,
+  ""warranty_months"": 18
+}
+```"
+qwen3:0.6b,BM-03,JSON output,2,7.338,0.599,0.031,6.669,69,176,26.39,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+qwen3:0.6b,BM-03,JSON output,3,6.498,0.638,0.042,5.774,69,188,32.56,"```json
+{
+  ""product_name"": ""ABC"",
+  ""price"": 3500000,
+  ""warranty_months"": 18
+}
+```"
+qwen3:0.6b,BM-04,Vietnamese summary,1,5.442,0.829,0.291,4.296,71,163,37.94,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, giúp theo dõi điện năng tiêu thụ theo thời gian thực, phát hiện bất thường, và tạo báo cáo định kỳ."
+qwen3:0.6b,BM-04,Vietnamese summary,2,5.23,0.359,0.021,4.835,71,192,39.71,"Doanh nghiệp ABC cung cấp hệ thống quản lý năng lượng cho tòa nhà, giúp theo dõi điện năng tiêu thụ theo thời gian thực, phát hiện bất thường và tạo báo cáo định kỳ."
+qwen3:0.6b,BM-04,Vietnamese summary,3,7.576,0.546,0.034,6.975,71,225,32.26,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, hệ thống theo dõi điện tiêu thụ theo thời gian thực, phát hiện bất thường, và tạo báo cáo định kỳ."
+qwen3:0.6b,BM-05,Instruction following,1,8.956,0.425,0.191,8.315,56,314,37.76,"- Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng.  
+- Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng.  
+- Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng."
+qwen3:0.6b,BM-05,Instruction following,2,9.717,0.347,0.026,9.314,56,350,37.58,"Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng.  
+Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng.  
+Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng."
+qwen3:0.6b,BM-05,Instruction following,3,7.545,0.5,0.032,6.962,56,273,39.21,"- RAM 16GB  
+- SSD 512GB  
+- Giá 20 triệu đồng"
+qwen3:1.7b,BM-01,Vietnamese marketing,1,36.664,6.113,1.12,29.4,94,500,17.01,"Máy lọc nước New Day với giá 5.990.000 đồng, công suất 15 lít/giờ, mang đến giải pháp tối ưu cho nhu cầu lọc nước hàng ngày. Bảo hành 24 tháng, sản phẩm được thiết kế bền bỉ, đảm bảo chất lượng và độ an toàn cho nguồn nước. Là lựa chọn tin cậy cho người yêu thích sự tiện lợi và hiệu quả, máy lọc nước New Day đáp ứng mọi yêu cầu sử dụng."
+qwen3:1.7b,BM-01,Vietnamese marketing,2,35.538,0.435,0.066,34.982,94,534,15.26,"Máy Lọc Nước New Day với giá 5.990.000 đồng, công suất 15 lít/giờ, bảo hành 24 tháng, là giải pháp tối ưu cho nhu cầu lọc nước tại nhà. Sản phẩm được thiết kế chuyên nghiệp, mang đến chất lượng nước đạt chuẩn."
+qwen3:1.7b,BM-01,Vietnamese marketing,3,76.08,0.439,0.055,75.542,94,1071,14.18,"Máy lọc nước New Day với giá 5.990.000 đồng, công suất 15 lít/giờ, bảo hành 24 tháng. Sản phẩm được thiết kế để đáp ứng nhu cầu lọc nước hiệu quả, mang lại chất lượng nước sạch và bảo hành dài hạn. Với mức giá hợp lý và chất lượng cao, New Day là lựa chọn lý tưởng cho người tiêu dùng."
+qwen3:1.7b,BM-02,Hallucination check,1,15.974,0.728,1.192,13.949,82,219,15.7,Không đủ thông tin. Dữ liệu cung cấp không chứa thông tin về công suất của sản phẩm A.
+qwen3:1.7b,BM-02,Hallucination check,2,23.965,0.531,0.052,23.361,82,359,15.37,"Không đủ thông tin. Dữ liệu cung cấp chỉ giá sản phẩm và thời gian bảo hành, không có thông tin liên quan đến công suất (điện áp, dòng điện, watt, v.v.). Công suất của sản phẩm A không thể xác định từ dữ liệu đã cho."
+qwen3:1.7b,BM-02,Hallucination check,3,15.237,0.555,0.07,14.583,82,232,15.91,"Không đủ thông tin. Dữ liệu cung cấp chỉ giá sản phẩm và thời gian bảo hành, không có thông tin nào liên quan đến công suất (điện năng) của sản phẩm."
+qwen3:1.7b,BM-03,JSON output,1,15.172,0.572,1.023,13.524,69,213,15.75,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+qwen3:1.7b,BM-03,JSON output,2,22.146,0.542,0.05,21.534,69,331,15.37,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+qwen3:1.7b,BM-03,JSON output,3,28.839,0.651,0.076,28.078,69,392,13.96,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+qwen3:1.7b,BM-04,Vietnamese summary,1,16.406,0.614,0.823,14.9,71,239,16.04,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, giúp theo dõi điện năng tiêu thụ theo thời gian thực và phát hiện bất thường. Hệ thống còn tạo báo cáo định kỳ để tối ưu hóa sử dụng năng lượng."
+qwen3:1.7b,BM-04,Vietnamese summary,2,15.686,0.479,0.062,15.131,71,219,14.47,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, theo dõi tiêu thụ điện thực thời gian, phát hiện bất thường và báo cáo định kỳ. Hệ thống giúp tối ưu hóa sử dụng năng lượng và giảm thiểu chi phí."
+qwen3:1.7b,BM-04,Vietnamese summary,3,16.245,0.426,0.059,15.739,71,221,14.04,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà. Hệ thống theo dõi điện năng tiêu thụ trong thời gian thực, phát hiện bất thường và báo cáo định kỳ. Giải pháp giúp tối ưu hóa sử dụng năng lượng và giảm thiểu chi phí."
+qwen3:1.7b,BM-05,Instruction following,1,20.455,0.481,0.724,18.52,56,285,15.39,"**Laptop A**  
+RAM 16GB, SSD 512GB, giá 20 triệu đồng."
+qwen3:1.7b,BM-05,Instruction following,2,19.074,0.48,0.457,18.054,56,283,15.68,"---  
+Laptop A với bộ nhớ RAM 16GB, SSD 512GB, giá 20 triệu đồng.  
+---  
+Laptop A được thiết kế để tối ưu hóa hiệu suất, phù hợp với nhu cầu làm việc và học tập.  
+---  
+Laptop A mang lại trải nghiệm sử dụng mượt mà, kết nối ổn định và giá thành hợp lý."
+qwen3:1.7b,BM-05,Instruction following,3,15.846,0.443,0.072,15.309,56,241,15.74,"- Laptop A trang bị bộ xử lý Intel i5 hoặc i7 với RAM 16GB và SSD 512GB, giá 20 triệu đồng.  
+- Laptop A đảm bảo hiệu suất mạnh mẽ với 16GB RAM và SSD 512GB, phù hợp cho công việc và học tập.  
+- Laptop A được thiết kế với giá 20 triệu đồng, cung cấp trải nghiệm ổn định và hiệu năng vượt trội."
+llama3.2:3b,BM-01,Vietnamese marketing,1,50.419,32.889,4.494,12.642,101,97,7.67,"Máy lọc nước New Day là sản phẩm hiện đại và hiệu quả giúp mang đến nguồn nước sạch, an toàn cho cuộc sống hàng ngày của bạn. Với công suất 15 lít/giờ, máy có thể xử lý lượng nước lớn mỗi ngày. Sản phẩm này được bảo hành 24 tháng đảm bảo chất lượng và sự tin tưởng của khách hàng. Máy lọc nước New Day là lựa chọn tuyệt vời cho gia đình và doanh nghiệp cần nguồn nước sạch mát."
+llama3.2:3b,BM-01,Vietnamese marketing,2,10.255,1.358,0.098,8.768,101,84,9.58,"""Máy lọc nước New Day là lựa chọn hoàn hảo cho những người yêu thích nước sạch và an toàn để uống hàng ngày. Với công suất cao lên đến 15 lít/giờ, máy này có thể đáp ứng nhu cầu của gia đình hoặc văn phòng. Máy lọc nước New Day được bảo hành dài hạn 24 tháng, đảm bảo chất lượng và sự tin tưởng khi sử dụng sản phẩm."""
+llama3.2:3b,BM-01,Vietnamese marketing,3,11.652,0.531,0.091,11.014,101,106,9.62,"Máy lọc nước New Day là sản phẩm hiện đại, được thiết kế với công suất lớn lên đến 15 lít/giờ, giúp mang lại nguồn nước sạch và an toàn cho gia đình và văn phòng. Với giá cả hợp lý chỉ ở mức 5.990.000 đồng, máy lọc nước này là lựa chọn tuyệt vời cho những người yêu thích cuộc sống khỏe mạnh và tinh khiết. Máy được bảo hành trong vòng 24 tháng, đảm bảo chất lượng và độ bền của sản phẩm."
+llama3.2:3b,BM-02,Hallucination check,1,10.591,0.644,2.082,7.827,89,73,9.33,"Không đủ thông tin để tính công suất của sản phẩm A. Dữ liệu chỉ cung cấp giá bán và thời gian bảo hành, nhưng không đề cập đến số lượng sản phẩm hoặc thời gian hoạt động mà sản phẩm này có thể đáp ứng được. Do đó, không thể xác định công suất của sản phẩm A dựa trên dữ liệu đã được cung cấp."
+llama3.2:3b,BM-02,Hallucination check,2,8.423,0.661,0.107,7.646,89,76,9.94,"Không đủ thông tin để tính công suất của sản phẩm A.
+
+Công suất thường được hiểu là số lượng sản phẩm một đơn vị sản xuất có thể tạo ra trong một khoảng thời gian nhất định. Tuy nhiên, dữ liệu cung cấp chỉ bao gồm giá và thời hạn bảo hành của sản phẩm A mà không đề cập đến số lượng sản phẩm hoặc thời gian sản xuất."
+llama3.2:3b,BM-02,Hallucination check,3,4.569,0.559,0.112,3.893,89,39,10.02,"Không đủ thông tin để xác định công suất của sản phẩm A. Dữ liệu chỉ cung cấp giá và thời gian bảo hành của sản phẩm, nhưng không có thông tin về công suất."
+llama3.2:3b,BM-03,JSON output,1,4.155,0.599,1.395,2.115,76,19,8.98,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+llama3.2:3b,BM-03,JSON output,2,2.671,0.637,0.13,1.877,76,19,10.12,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+llama3.2:3b,BM-03,JSON output,3,2.371,0.56,0.096,1.708,76,19,11.12,"{""product_name"":""ABC"",""price"":3500000,""warranty_months"":18}"
+llama3.2:3b,BM-04,Vietnamese summary,1,10.538,0.673,1.632,8.176,82,75,9.17,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng hiệu quả cho tòa nhà bằng hệ thống theo dõi và quản lý năng lượng điện một cách toàn diện. Hệ thống này giúp theo dõi tiêu thụ năng lượng theo thời gian thực, phát hiện các biến động bất thường và tạo báo cáo định kỳ để hỗ trợ quyết định tối ưu hóa sử dụng năng lượng."
+llama3.2:3b,BM-04,Vietnamese summary,2,6.533,0.84,0.154,5.531,82,52,9.4,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, giúp tòa nhà có thể theo dõi điện năng tiêu thụ theo thời gian thực, phát hiện bất thường và tạo báo cáo định kỳ để tối ưu hóa sử dụng năng lượng."
+llama3.2:3b,BM-04,Vietnamese summary,3,8.474,0.869,0.143,7.454,82,70,9.39,"Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà, giúp khách hàng theo dõi điện năng tiêu thụ theo thời gian thực, phát hiện các sự bất thường và tạo báo cáo định kỳ để tối ưu hóa sử dụng năng lượng. Giải pháp này giúp khách hàng giảm thiểu chi phí năng lượng và bảo vệ môi trường."
+llama3.2:3b,BM-05,Instruction following,1,13.035,0.628,1.24,11.127,66,104,9.35,"Dưới đây là 3 gạch đầu dòng về Laptop A:
+
+• Laptop A cung cấp hiệu suất tốt cho các tác vụ sử dụng everyday.
+• Sử dụng RAM 16GB và SSD 512GB giúp cho laptop có tốc độ truy cập nhanh và không bị chậm chội khi mở ứng dụng hoặc lưu trữ nhiều file.
+• Giá cả hợp lý của Laptop A là 20 triệu đồng, một lựa chọn tốt cho những người đang tìm kiếm một chiếc laptop giá rẻ nhưng vẫn đảm bảo chất lượng."
+llama3.2:3b,BM-05,Instruction following,2,11.871,0.72,0.148,10.987,66,101,9.19,"Dưới đây là 3 gạch đầu dòng về laptop A:
+
+- Laptop A là một lựa chọn tốt cho những người cần một thiết bị di động mạnh mẽ và hiệu suất cao.
+- Với RAM 16GB và SSD 512GB, laptop A có thể xử lý các tác vụ phức tạp mà không gặp khó khăn.
+- Giá của laptop A dao động từ 20 triệu đồng, cung cấp giá trị hợp lý cho những ai đang tìm kiếm một thiết bị di động chất lượng."
+llama3.2:3b,BM-05,Instruction following,3,12.58,0.654,0.141,11.766,66,102,8.67,"Dưới đây là ba gạch đầu dòng về sản phẩm Laptop A:
+
+- Laptop A là một lựa chọn tuyệt vời cho những ai cần một thiết bị làm việc hiệu quả với tốc độ cao.
+- Với bộ nhớ RAM 16GB và SSD 512GB, Laptop A mang đến trải nghiệm sử dụng mượt mà và nhanh chóng.
+- Giá cả hợp lý của Laptop A tại 20 triệu đồng giúp khách hàng có thể sở hữu một chiếc laptop chất lượng với mức giá phải chăng."

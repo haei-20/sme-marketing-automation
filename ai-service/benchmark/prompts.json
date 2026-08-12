@@ -1,0 +1,27 @@
+[
+  {
+    "id": "BM-01",
+    "name": "Vietnamese marketing",
+    "prompt": "Bạn là chuyên gia Digital Marketing. Chỉ sử dụng dữ liệu được cung cấp, không tự thêm thông tin. Tên sản phẩm: Máy lọc nước New Day. Giá: 5.990.000 đồng. Công suất: 15 lít/giờ. Bảo hành: 24 tháng. Hãy viết một đoạn giới thiệu bằng tiếng Việt trong tối đa 4 câu."
+  },
+  {
+    "id": "BM-02",
+    "name": "Hallucination check",
+    "prompt": "Chỉ dựa trên dữ liệu sau để trả lời. Dữ liệu: Sản phẩm A có giá 2.500.000 đồng và bảo hành 12 tháng. Câu hỏi: Công suất của sản phẩm A là bao nhiêu? Nếu dữ liệu không có câu trả lời, hãy nói rõ không đủ thông tin."
+  },
+  {
+    "id": "BM-03",
+    "name": "JSON output",
+    "prompt": "Chỉ trả về JSON hợp lệ, không markdown, theo cấu trúc {\"product_name\":\"string\",\"price\":number,\"warranty_months\":number}. Dữ liệu: Tên sản phẩm ABC, giá 3500000 đồng, bảo hành 18 tháng."
+  },
+  {
+    "id": "BM-04",
+    "name": "Vietnamese summary",
+    "prompt": "Tóm tắt nội dung sau bằng tiếng Việt trong tối đa 3 câu: Doanh nghiệp ABC cung cấp giải pháp quản lý năng lượng cho tòa nhà. Hệ thống giúp theo dõi điện năng tiêu thụ theo thời gian thực, phát hiện bất thường và tạo báo cáo định kỳ."
+  },
+  {
+    "id": "BM-05",
+    "name": "Instruction following",
+    "prompt": "Hãy viết đúng 3 gạch đầu dòng về sản phẩm sau, không được thêm thông số khác: Laptop A, RAM 16GB, SSD 512GB, giá 20 triệu đồng."
+  }
+]
