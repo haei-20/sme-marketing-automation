@@ -1,13 +1,12 @@
+import { useEffect, useState } from "react";
 import {
   Bot,
-  Check,
-  Cloud,
-  ExternalLink,
-  FileSpreadsheet,
-  KeyRound,
-  SearchCheck,
-  ShieldCheck,
+  CheckCircle2,
+  Link2,
   MessagesSquare,
+  RefreshCw,
+  ShieldCheck,
+  Unplug,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
@@ -22,89 +21,191 @@ import {
   CardTitle,
   PageHeader,
 } from "@/components";
+import {
+  appEnv,
+  integrationApi,
+  type FacebookIntegrationStatus,
+} from "@/lib";
 
-const integrations = [
-  {
-    name: "Ollama Local LLM",
-    description: "Mô hình Qwen/Llama chạy trong hạ tầng riêng.",
-    icon: Bot,
-    status: "connected",
-    meta: "llama-3.1-8b • 22 token/s",
-  },
-  {
-    name: "Amazon S3",
-    description: "Lưu tài liệu và hình ảnh qua URL có kiểm soát.",
-    icon: Cloud,
-    status: "connected",
-    meta: "Bucket ap-southeast-1",
-  },
-  {
-    name: "Facebook Pages",
-    description: "Đăng nội dung đã duyệt lên trang doanh nghiệp.",
-    icon: MessagesSquare,
-    status: "attention",
-    meta: "Token cần cập nhật",
-  },
-  {
-    name: "Google Sheets",
-    description: "Hàng đợi trung gian cho pipeline auto-posting.",
-    icon: FileSpreadsheet,
-    status: "connected",
-    meta: "Đồng bộ 5 phút trước",
-  },
-  {
-    name: "Ahrefs API",
-    description: "Chấm điểm từ khóa và hiệu quả SEO nội dung.",
-    icon: SearchCheck,
-    status: "not_connected",
-    meta: "Chưa cấu hình",
-  },
-] as const;
+import { FacebookConsentDialog } from "../components/FacebookConsentDialog";
+
+const mockFacebookStatus: FacebookIntegrationStatus = {
+  status: "NEEDS_REAUTH",
+  page: { id: "page-demo-12", name: "An Nhiên Living" },
+  permissions: ["pages_manage_posts", "pages_read_engagement"],
+  lastCheckedAt: "2026-08-12T09:00:00+07:00",
+  errorCode: "TOKEN_EXPIRED",
+  errorMessage: "Quyền truy cập đã hết hạn. Hãy xác nhận và kết nối lại Page.",
+};
 
 export function IntegrationsPage() {
+  const [facebook, setFacebook] = useState<FacebookIntegrationStatus>(mockFacebookStatus);
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (appEnv.useMocks) return;
+    let active = true;
+    void integrationApi
+      .facebookStatus()
+      .then((status) => {
+        if (active) setFacebook(status);
+      })
+      .catch(() => {
+        if (active) setError("Không đọc được trạng thái Facebook từ Backend local.");
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const connect = async () => {
+    setIsSubmitting(true);
+    setError(undefined);
+    try {
+      if (appEnv.useMocks) {
+        await new Promise((resolve) => window.setTimeout(resolve, 500));
+        setFacebook({
+          status: "CONNECTED",
+          page: { id: "page-demo-12", name: "An Nhiên Living" },
+          permissions: ["pages_manage_posts", "pages_read_engagement"],
+          lastCheckedAt: new Date().toISOString(),
+        });
+      } else {
+        const response = await integrationApi.connectFacebook({
+          consentVersion: "2026-08",
+          acceptedData: [
+            "PAGE_IDENTITY",
+            "APPROVED_POST_CONTENT",
+            "APPROVED_MEDIA",
+            "PUBLISH_SCHEDULE",
+          ],
+          acknowledgeExternalTransfer: true,
+        });
+        if (!window.smeDesktop) {
+          throw new Error("Cần mở bằng ứng dụng desktop để tiếp tục OAuth.");
+        }
+        await window.smeDesktop.openApprovedExternalUrl(response.authorizationUrl);
+      }
+      setConsentOpen(false);
+    } catch (connectError) {
+      setError(connectError instanceof Error ? connectError.message : "Không thể bắt đầu kết nối Facebook.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const disconnect = async () => {
+    setIsSubmitting(true);
+    setError(undefined);
+    try {
+      if (!appEnv.useMocks) await integrationApi.disconnectFacebook();
+      setFacebook({ status: "DISCONNECTED", permissions: [] });
+    } catch {
+      setError("Không thể ngắt kết nối Facebook. Vui lòng thử lại.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const connected = facebook.status === "CONNECTED";
+  const needsAttention = facebook.status === "NEEDS_REAUTH";
+
   return (
     <>
       <Helmet><title>Tích hợp | SMEFlow AI</title></Helmet>
       <PageHeader
         eyebrow="Cấu hình hệ thống"
         title="Tích hợp & kết nối"
-        description="Theo dõi trạng thái dịch vụ. Khóa bí mật luôn được cấu hình ở backend, không lưu trong trình duyệt."
-        meta={<Badge tone="success" leadingIcon={<ShieldCheck size={12} />}>Không lộ khóa phía client</Badge>}
+        description="Mặc định mọi xử lý diễn ra local. Facebook chỉ được kết nối khi bạn chủ động đồng ý."
+        meta={
+          <Badge tone="success" leadingIcon={<ShieldCheck size={12} />}>
+            Không giữ token ở giao diện
+          </Badge>
+        }
       />
+
       <Alert
         className="mt-7"
-        tone="warning"
-        title="Quyền sở hữu pipeline cần chốt với Backend"
-        description="Frontend chỉ hiển thị trạng thái và gửi yêu cầu. Token Facebook, Google và Ahrefs phải được quản lý bởi Spring Boot hoặc công cụ automation phía server."
+        tone="info"
+        title="Local-first, không có pipeline cloud trung gian"
+        description="Amazon S3 và Google Sheets không thuộc runtime phát hành. Backend local chỉ gọi Facebook Graph API cho nội dung đã duyệt sau consent."
       />
-      <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {integrations.map(({ name, description, icon: Icon, status, meta }) => (
-          <Card key={name} variant="interactive" className="flex min-h-64 flex-col">
-            <CardHeader>
-              <div className="flex items-start justify-between gap-4">
-                <span className="grid size-12 place-items-center rounded-2xl bg-slate-950 text-white"><Icon size={22} /></span>
-                {status === "connected" ? (
-                  <Badge tone="success" leadingIcon={<Check size={12} />}>Đã kết nối</Badge>
-                ) : status === "attention" ? (
-                  <Badge tone="warning">Cần chú ý</Badge>
-                ) : (
-                  <Badge>Chưa kết nối</Badge>
-                )}
+      {error && <Alert className="mt-4" tone="danger" title="Không thể hoàn tất thao tác" description={error} />}
+
+      <section className="mt-6 grid gap-5 lg:grid-cols-2">
+        <Card className="flex flex-col">
+          <CardHeader>
+            <div className="flex items-start justify-between gap-4">
+              <span className="grid size-12 place-items-center rounded-2xl bg-slate-950 text-white"><Bot size={22} /></span>
+              <Badge tone="success" leadingIcon={<CheckCircle2 size={12} />}>Local</Badge>
+            </div>
+            <CardTitle className="mt-4">Ollama Local LLM</CardTitle>
+            <CardDescription>Mô hình AI chạy trực tiếp trên máy; prompt và context RAG không rời thiết bị.</CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto">
+            <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+              Trạng thái runtime được theo dõi tại màn Trạng thái hệ thống.
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="flex flex-col border-blue-200">
+          <CardHeader>
+            <div className="flex items-start justify-between gap-4">
+              <span className="grid size-12 place-items-center rounded-2xl bg-blue-600 text-white"><MessagesSquare size={22} /></span>
+              <Badge tone={connected ? "success" : needsAttention ? "warning" : "neutral"}>
+                {connected ? "Đã kết nối" : needsAttention ? "Cần kết nối lại" : "Chưa kết nối"}
+              </Badge>
+            </div>
+            <CardTitle className="mt-4">Facebook Pages</CardTitle>
+            <CardDescription>Đăng bài đã APPROVED/SCHEDULED trực tiếp qua Backend local.</CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto space-y-4">
+            {facebook.page && (
+              <div className="rounded-xl bg-slate-50 p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Page được chọn</p>
+                <p className="mt-1 font-extrabold text-slate-900">{facebook.page.name}</p>
+                <p className="mt-1 text-xs text-slate-500">ID: {facebook.page.id}</p>
               </div>
-              <CardTitle className="mt-4">{name}</CardTitle>
-              <CardDescription>{description}</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="mb-4 flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2.5 text-xs text-slate-500">
-                <KeyRound size={14} /> <span className="truncate">{meta}</span>
-              </div>
-              <Button variant={status === "not_connected" ? "primary" : "outline"} fullWidth rightIcon={<ExternalLink size={15} />}>
-                {status === "not_connected" ? "Thiết lập kết nối" : "Quản lý"}
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+            )}
+            {facebook.errorMessage && (
+              <Alert tone="warning" title="Kết nối cần xử lý" description={facebook.errorMessage} />
+            )}
+            <div className="flex flex-col gap-2 sm:flex-row">
+              {!connected ? (
+                <Button
+                  fullWidth
+                  leftIcon={needsAttention ? <RefreshCw size={16} /> : <Link2 size={16} />}
+                  onClick={() => setConsentOpen(true)}
+                >
+                  {needsAttention ? "Kết nối lại an toàn" : "Kết nối Facebook"}
+                </Button>
+              ) : (
+                <>
+                  <Button fullWidth variant="outline" leftIcon={<RefreshCw size={16} />} onClick={() => setConsentOpen(true)}>
+                    Cấp lại quyền
+                  </Button>
+                  <Button fullWidth variant="danger" loading={isSubmitting} leftIcon={<Unplug size={16} />} onClick={() => void disconnect()}>
+                    Ngắt kết nối
+                  </Button>
+                </>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </section>
+
+      {consentOpen && (
+        <FacebookConsentDialog
+          open
+          mode="connect"
+          isSubmitting={isSubmitting}
+          onClose={() => setConsentOpen(false)}
+          onConfirm={connect}
+        />
+      )}
     </>
   );
 }

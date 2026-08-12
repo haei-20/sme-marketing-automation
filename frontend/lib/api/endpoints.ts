@@ -9,6 +9,9 @@ import type {
   GeneratePlanRequest,
   GeneratePostAccepted,
   GeneratePostRequest,
+  FacebookConnectResponse,
+  FacebookConsentRequest,
+  FacebookIntegrationStatus,
   KnowledgeDocument,
   KnowledgeStatus,
   KnowledgeUploadResponse,
@@ -20,6 +23,7 @@ import type {
   PostStatus,
   PublishLog,
   RegisterRequest,
+  RetryPublishRequest,
   SchedulePostRequest,
   UpdatePostRequest,
 } from "../types";
@@ -150,6 +154,31 @@ export const postApi = {
 
   logs(postId: number): Promise<PublishLog[]> {
     return apiClient.get(`/api/posts/${postId}/logs`);
+  },
+
+};
+
+export const publishingApi = {
+  listLogs(): Promise<PublishLog[]> {
+    return apiClient.get("/api/publishing/logs");
+  },
+
+  retry(logId: number, payload: RetryPublishRequest): Promise<PublishLog> {
+    return apiClient.postJson(`/api/publishing/logs/${logId}/retry`, payload);
+  },
+};
+
+export const integrationApi = {
+  facebookStatus(): Promise<FacebookIntegrationStatus> {
+    return apiClient.get("/api/integrations/facebook");
+  },
+
+  connectFacebook(payload: FacebookConsentRequest): Promise<FacebookConnectResponse> {
+    return apiClient.postJson("/api/integrations/facebook/connect", payload);
+  },
+
+  disconnectFacebook(): Promise<void> {
+    return apiClient.delete("/api/integrations/facebook");
   },
 };
 

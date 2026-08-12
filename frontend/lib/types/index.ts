@@ -4,5 +4,6 @@ export * from "./campaign";
 export * from "./common";
 export * from "./evaluation";
 export * from "./knowledge-base";
+export * from "./integration";
 export * from "./post";
 export * from "./publishing";

@@ -37,8 +37,8 @@ interface DesktopAPI {
 | Campaign | `POST/GET /api/campaigns` | Có phân trang/filter. |
 | Plan | `POST /api/campaigns/{id}/plan`, `GET/PUT`, approve | Job dài có thể trả 202. |
 | Post | generate/list/detail/update/approve/reject/schedule/feedback | Phải công bố state machine. |
-| Publish | logs, retry, cancel/reschedule | Backend giữ token và idempotency key. |
-| Integration | connect/status/disconnect Facebook | Renderer không nhận raw Page token. |
+| Publish | `GET /api/publishing/logs`, `POST /api/publishing/logs/{id}/retry`, cancel/reschedule | Backend giữ token và idempotency key; retry nhận consent version, không nhận token. |
+| Integration | `GET /api/integrations/facebook`, `POST .../connect`, `DELETE .../facebook` | Renderer chỉ nhận Page metadata/authorization URL; không nhận raw Page token. |
 | Evaluation | `POST /api/eval/run` | Mặc định local judge/SEO offline. |
 
 Lỗi thống nhất:
@@ -113,6 +113,10 @@ Luồng: `APPROVED` → `SCHEDULED` → Backend Scheduler → Facebook Graph API
 - API trả trạng thái kết nối và Page metadata cần hiển thị, không trả token.
 - Publish dùng idempotency, retry/backoff và ghi external post ID.
 - Offline/API lỗi không làm mất bài; người dùng có thể retry theo quyền.
+- Connect/reconnect và retry bắt buộc gửi `consentVersion: "2026-08"` cùng xác nhận dữ liệu rời máy; Backend ghi audit.
+- Status response chỉ gồm `DISCONNECTED | CONNECTED | NEEDS_REAUTH`, Page ID/name, permission name và lỗi đã redact.
+- Connect response chỉ trả authorization URL có thời hạn; renderer không có trường nhập/đọc Page token.
+- Publish log gồm `SUCCESS | FAILED | RETRYING`, attempt, error code/message đã redact, external ID và thời điểm retry kế tiếp.
 
 ## 8. Các quyết định phải khóa
 

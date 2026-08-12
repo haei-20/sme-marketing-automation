@@ -278,6 +278,7 @@ export const mockPublishLogs: PublishLog[] = [
     postId: 303,
     channel: "BLOG",
     status: "SUCCESS",
+    attempt: 1,
     externalPostId: "blog-5-tieu-chi-chon-may-loc-nuoc",
     postedAt: "2026-07-07T08:00:04+07:00",
   },
@@ -286,6 +287,8 @@ export const mockPublishLogs: PublishLog[] = [
     postId: 301,
     channel: "FACEBOOK",
     status: "FAILED",
+    errorCode: "FACEBOOK_TOKEN_EXPIRED",
+    attempt: 1,
     errorMessage:
       "Facebook Page Access Token đã hết hạn. Hệ thống sẽ thử lại sau khi kết nối được cập nhật.",
     postedAt: "2026-07-15T07:30:03+07:00",
